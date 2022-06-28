@@ -43,6 +43,9 @@ if [[ "$CURRENT_PLATFORM" == 'windows' ]]; then
     if [[ "$PROCESSOR_ARCHITECTURE" == 'x86' ]]; then
         RUNTIME_ID='win-x86'
     fi
+    if [[ "$PROCESSOR_ARCHITECTURE" == 'ARM64' ]]; then
+        RUNTIME_ID='win-arm64'
+    fi
 elif [[ "$CURRENT_PLATFORM" == 'linux' ]]; then
     RUNTIME_ID="linux-x64"
     if command -v uname > /dev/null; then
@@ -67,11 +70,11 @@ if [[ -n "$DEV_TARGET_RUNTIME" ]]; then
 fi
 
 # Make sure current platform support publish the dotnet runtime
-# Windows can publish win-x86/x64
+# Windows can publish win-x86/x64/arm64
 # Linux can publish linux-x64/arm/arm64
 # OSX can publish osx-x64/arm64
 if [[ "$CURRENT_PLATFORM" == 'windows' ]]; then
-    if [[ ("$RUNTIME_ID" != 'win-x86') && ("$RUNTIME_ID" != 'win-x64') ]]; then
+    if [[ ("$RUNTIME_ID" != 'win-x86') && ("$RUNTIME_ID" != 'win-x64') && ("$RUNTIME_ID" != 'win-arm64') ]]; then
         echo "Failed: Can't build $RUNTIME_ID package $CURRENT_PLATFORM" >&2
         exit 1
     fi
